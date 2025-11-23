@@ -76,6 +76,8 @@ void AP_OpticalFlow_MAV::update(void)
         state.bodyRate.zero();
     }
 
+    state.integration_time_us = (uint32_t)(dt * 1.0e6);
+    state.distance = distance;
     _update_frontend(state);
 
     // reset local buffers
@@ -102,6 +104,7 @@ void AP_OpticalFlow_MAV::handle_msg(const mavlink_message_t &msg)
     flow_sum.x += packet.flow_x;
     flow_sum.y += packet.flow_y;
     quality_sum += packet.quality;
+    distance = packet.ground_distance;
     count++;
 
     // take sensor id from message

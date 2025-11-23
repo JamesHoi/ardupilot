@@ -2444,6 +2444,24 @@ void GCS_MAVLINK::send_opticalflow()
         hagl,  // ground distance (in meters) set to zero
         flowRate.x,
         flowRate.y);
+
+    // send optical_flow_rad to match mavlink px4
+    double fps = 1e6 / optflow->integration_time_us();
+    mavlink_msg_optical_flow_rad_send(
+        chan,
+        AP_HAL::micros64(),
+        0,
+        optflow->integration_time_us(),
+        optflow->flowRate().x / fps,
+        optflow->flowRate().y / fps,
+        optflow->bodyRate().x / fps,
+        optflow->bodyRate().y / fps,
+        0,
+        0,
+        optflow->quality(),
+        0,
+        optflow->distance());
+
 }
 #endif  // AP_OPTICALFLOW_ENABLED
 

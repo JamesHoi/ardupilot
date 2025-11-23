@@ -38,6 +38,7 @@ private:
     uint8_t sensor_id;                  // sensor_id received in latest mavlink message
     Vector2f gyro_sum;                  // sum of gyro sensor values since last frame from flow sensor
     uint16_t gyro_sum_count;            // number of gyro sensor values in sum
+    float distance;
 };
 
 #endif  // AP_OPTICALFLOW_MAV_ENABLED
