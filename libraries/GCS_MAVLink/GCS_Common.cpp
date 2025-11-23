@@ -2446,12 +2446,13 @@ void GCS_MAVLINK::send_opticalflow()
         flowRate.y);
 
     // send optical_flow_rad to match mavlink px4
-    double fps = 1e6 / optflow->integration_time_us();
+    uint32_t integration_time_us = 20000; // 20ms
+    float fps = 1.0f / (integration_time_us * 1e-6f); // upflow fixed integration time 20ms
     mavlink_msg_optical_flow_rad_send(
         chan,
         AP_HAL::micros64(),
         0,
-        optflow->integration_time_us(),
+        integration_time_us,
         optflow->flowRate().x / fps,
         optflow->flowRate().y / fps,
         optflow->bodyRate().x / fps,
