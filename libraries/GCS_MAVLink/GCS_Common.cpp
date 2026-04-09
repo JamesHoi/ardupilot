@@ -2430,6 +2430,10 @@ void GCS_MAVLINK::send_opticalflow()
     if (!AP::ahrs().get_hagl(hagl)) {
         hagl = 0;
     }
+    float flow_distance = optflow->distance();
+    if (!(flow_distance > 0.0f)) {
+        flow_distance = hagl;
+    }
 
     // populate and send message
     mavlink_msg_optical_flow_send(
@@ -2462,7 +2466,7 @@ void GCS_MAVLINK::send_opticalflow()
         0,
         optflow->quality(),
         0,
-        optflow->distance());
+        flow_distance);
 
 }
 #endif  // AP_OPTICALFLOW_ENABLED

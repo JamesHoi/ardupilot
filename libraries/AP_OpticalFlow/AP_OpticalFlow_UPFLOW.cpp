@@ -159,6 +159,12 @@ void AP_OpticalFlow_UPFLOW::update(void)
     struct AP_OpticalFlow::OpticalFlow_state state {};
 
     state.surface_quality = updata.quality;
+    state.integration_time_us = updata.integration_timespan;
+
+    float hagl = 0.0f;
+    if (AP::ahrs().get_hagl(hagl)) {
+        state.distance = hagl;
+    }
 
     float dt = updata.integration_timespan * 1.0e-6;
 
